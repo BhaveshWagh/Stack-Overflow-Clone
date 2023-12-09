@@ -1,9 +1,17 @@
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
+
+import Navbar from "./components/Navbar/Navbar";
+import AllRoutes from "./AllRoutes";
+
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      Stack-overflow Clone
+      <Router>
+        <Navbar />
+        <AllRoutes/>
+      </Router>
     </div>
   );
 }
