@@ -36,9 +36,9 @@
     0 1px 4px rgb(0 0 0 / 10%);
 }
 
-/* .auth-container-2 form p {
+.auth-container-2 form p {
   word-wrap: break-word;
-} */
+}
 
 .auth-container-2 form label input {
   padding: 10px;
