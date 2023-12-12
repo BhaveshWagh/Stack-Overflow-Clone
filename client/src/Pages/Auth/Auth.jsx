@@ -1,18 +1,55 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import icon from "../../assets/icon.png";
 import AboutAuth from "./AboutAuth";
+import { signup, login } from "../../actions/auth";
 import "./Auth.css";
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleSwitch = () => {
     setIsSignup(!isSignup);
   };
 
-  const handleSubmit = () =>{
-    //
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email && !password) {
+      alert("Enter email and password");
+    }
+    if (isSignup) {
+      if (!name) {
+        alert("Enter a name to continue");
+      }
+      dispatch(signup({ name, email, password }, navigate));
+    } else {
+      dispatch(login({ email, password }, navigate));
+    }
+  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!email && !password) {
+  //     alert("Enter email & password");
+  //   }
+  //   if (isSignup) {
+  //     if (!name) {
+  //       alert("Enter a name to continue");
+  //     }
+  //     dispatch(signup({ name, email, password }, navigate));
+  //   } else {
+  //     dispatch(login({ email, password }, navigate));
+  //   }
+
+  //   // console.log({name,email,password})
+  // };
 
   return (
     <section className="auth-section">
@@ -26,13 +63,29 @@ const Auth = () => {
           {isSignup && (
             <label htmlFor="name">
               <h4>Display Name</h4>
-              <input type="text" id="name" name="name" />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
             </label>
           )}
 
           <label htmlFor="email">
             <h4>Email</h4>
-            <input type="email" name="email" id="email" />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </label>
 
           <label htmlFor="password">
@@ -44,7 +97,15 @@ const Auth = () => {
                 </p>
               )}
             </div>
-            <input type="password" name="password" id="password" />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
             {isSignup && (
               <p style={{ color: "#666767", fontSize: "13px" }}>
                 Passwords must contain at least eight
@@ -55,7 +116,11 @@ const Auth = () => {
           </label>
           {isSignup && (
             <label htmlFor="check">
-              <input type="checkbox" id="check" style={{ width: "13px", margin: "13px" }}/>
+              <input
+                type="checkbox"
+                id="check"
+                style={{ width: "13px", margin: "13px" }}
+              />
               <p style={{ fontSize: "13px" }}>
                 Opt-in to receive occasional,
                 <br />
