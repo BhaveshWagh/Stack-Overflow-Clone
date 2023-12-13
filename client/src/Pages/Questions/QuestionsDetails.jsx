@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Avatar from "../../components/Avatar/Avatar";
 import DisplayAnswer from "./DisplayAnswer";
 
@@ -10,77 +11,78 @@ import "./Questions.css";
 
 const QuestionsDetails = () => {
   const { id } = useParams();
+  const questionsList = useSelector((state) => state.questionsReducer);
 
-  var questionsList = [
-    {
-      _id: "1",
-      upVotes: 3,
-      downVotes: 1,
-      noOfAnswers: 2,
-      questionTitle: "What is a function ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Monu",
-      askedOn: "Nov 27 2000",
-      useId: 1,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Kumar Sanu",
-          answeredOn: "Nov 30 2000",
-          userId: 2,
-        },
-      ],
-    },
-    {
-      _id: "2",
-      upVotes: 345,
-      downVotes: 23,
-      noOfAnswers: 23,
-      questionTitle: "What is rendering in reactjs ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Sonu",
-      askedOn: "Jan 15 2020",
-      useId: 1,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Ajay Kumar",
-          answeredOn: "Jan 17 2020",
-          userId: 2,
-        },
-      ],
-    },
-    {
-      _id: "3",
-      upVotes: 123,
-      downVotes: 10,
-      noOfAnswers: 50,
-      questionTitle: "What is a API's ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Tinu",
-      askedOn: "Feb 1 2018",
-      useId: 5,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Kumar Sanu",
-          answeredOn: "Jan 17 2020",
-          userId: 2,
-        },
-      ],
-    },
-  ];
+  // var questionsList = [
+  //   {
+  //     _id: "1",
+  //     upVotes: 3,
+  //     downVotes: 1,
+  //     noOfAnswers: 2,
+  //     questionTitle: "What is a function ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Monu",
+  //     askedOn: "Nov 27 2000",
+  //     useId: 1,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Kumar Sanu",
+  //         answeredOn: "Nov 30 2000",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "2",
+  //     upVotes: 345,
+  //     downVotes: 23,
+  //     noOfAnswers: 23,
+  //     questionTitle: "What is rendering in reactjs ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Sonu",
+  //     askedOn: "Jan 15 2020",
+  //     useId: 1,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Ajay Kumar",
+  //         answeredOn: "Jan 17 2020",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "3",
+  //     upVotes: 123,
+  //     downVotes: 10,
+  //     noOfAnswers: 50,
+  //     questionTitle: "What is a API's ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Tinu",
+  //     askedOn: "Feb 1 2018",
+  //     useId: 5,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Kumar Sanu",
+  //         answeredOn: "Jan 17 2020",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   return (
     <div className="question-details-page">
-      {questionsList === null ? (
+      {questionsList.data === null ? (
         <h1>Loading...</h1>
       ) : (
         <>
-          {questionsList
+          {questionsList.data
             .filter((question) => question._id === id)
             .map((question) => (
               <div key={question._id}>
