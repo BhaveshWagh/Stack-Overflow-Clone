@@ -1,86 +1,130 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate, useParams,useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import copy from 'copy-to-clipboard'
+
 import Avatar from "../../components/Avatar/Avatar";
 import DisplayAnswer from "./DisplayAnswer";
 
 import upvote from "../../assets/sort-up.svg";
 import downvote from "../../assets/sort-down.svg";
 
+import { postAnswer } from "../../actions/question";
+
 import "./Questions.css";
 
 const QuestionsDetails = () => {
   const { id } = useParams();
+  const questionsList = useSelector((state) => state.questionsReducer);
+  console.log(questionsList);
 
-  var questionsList = [
-    {
-      _id: "1",
-      upVotes: 3,
-      downVotes: 1,
-      noOfAnswers: 2,
-      questionTitle: "What is a function ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Monu",
-      askedOn: "Nov 27 2000",
-      useId: 1,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Kumar Sanu",
-          answeredOn: "Nov 30 2000",
-          userId: 2,
-        },
-      ],
-    },
-    {
-      _id: "2",
-      upVotes: 345,
-      downVotes: 23,
-      noOfAnswers: 23,
-      questionTitle: "What is rendering in reactjs ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Sonu",
-      askedOn: "Jan 15 2020",
-      useId: 1,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Ajay Kumar",
-          answeredOn: "Jan 17 2020",
-          userId: 2,
-        },
-      ],
-    },
-    {
-      _id: "3",
-      upVotes: 123,
-      downVotes: 10,
-      noOfAnswers: 50,
-      questionTitle: "What is a API's ?",
-      questionBody: "It meant to be",
-      questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
-      userPosted: "Tinu",
-      askedOn: "Feb 1 2018",
-      useId: 5,
-      answer: [
-        {
-          answerBody: "Answer",
-          userAnswered: "Kumar Sanu",
-          answeredOn: "Jan 17 2020",
-          userId: 2,
-        },
-      ],
-    },
-  ];
+  // var questionsList = [
+  //   {
+  //     _id: "1",
+  //     upVotes: 3,
+  //     downVotes: 1,
+  //     noOfAnswers: 2,
+  //     questionTitle: "What is a function ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Monu",
+  //     askedOn: "Nov 27 2000",
+  //     useId: 1,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Kumar Sanu",
+  //         answeredOn: "Nov 30 2000",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "2",
+  //     upVotes: 345,
+  //     downVotes: 23,
+  //     noOfAnswers: 23,
+  //     questionTitle: "What is rendering in reactjs ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Sonu",
+  //     askedOn: "Jan 15 2020",
+  //     useId: 1,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Ajay Kumar",
+  //         answeredOn: "Jan 17 2020",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "3",
+  //     upVotes: 123,
+  //     downVotes: 10,
+  //     noOfAnswers: 50,
+  //     questionTitle: "What is a API's ?",
+  //     questionBody: "It meant to be",
+  //     questionTags: ["java", "node js", "react js", "mongodb", "javascript"],
+  //     userPosted: "Tinu",
+  //     askedOn: "Feb 1 2018",
+  //     useId: 5,
+  //     answer: [
+  //       {
+  //         answerBody: "Answer",
+  //         userAnswered: "Kumar Sanu",
+  //         answeredOn: "Jan 17 2020",
+  //         userId: 2,
+  //       },
+  //     ],
+  //   },
+  // ];
+  const [Answer, setAnswer] = useState("");
+
+  const Navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const User = useSelector((state) => state.currentUserReducer);
+
+  const  location = useLocation()
+  const url ="http://localhost:3000"
+  // console.log(location)
+
+  const handlePostAns = (e, answerLength) => {
+    e.preventDefault();
+    if (User === null) {
+      alert("Login or SignUp to a answer a question");
+      Navigate("/Auth");
+    } else {
+      if (Answer === "") {
+        alert("Enter an answer before submitting");
+      } else {
+        dispatch(
+          postAnswer({
+            id,
+            noOfAnswers: answerLength + 1,
+            answerBody: Answer,
+            userAnswered: User.result.name,
+          })
+        );
+      }
+    }
+  };
+
+  const handleShare   = () => {
+      copy(url + location.pathname)
+      alert(`Copied url : ${url + location.pathname}`)
+  }
 
   return (
     <div className="question-details-page">
-      {questionsList === null ? (
+      {questionsList.data === null ? (
         <h1>Loading...</h1>
       ) : (
         <>
-          {questionsList
+          {questionsList.data
             .filter((question) => question._id === id)
             .map((question) => (
               <div key={question._id}>
@@ -101,12 +145,12 @@ const QuestionsDetails = () => {
                       </div>
                       <div className="question-actions-user">
                         <div>
-                          <button type="button">Share</button>
+                          <button type="button" onClick={handleShare}>Share</button>
                           <button type="button">Delete</button>
                         </div>
                         <div>
                           {" "}
-                          <p>Asked {question.askedOn}</p>
+                          <p>Asked {moment(question.askedOn).fromNow()}</p>
                           <Link
                             to={`/User/${question.userPosted.id}`}
                             className="user-link"
@@ -125,15 +169,25 @@ const QuestionsDetails = () => {
                 </section>
                 {question.noOfAnswers !== 0 && (
                   <section>
-                    <h3>{question.noOfAnswers} answers</h3>
-                    <DisplayAnswer key={question._id} question={question} />
+                    <h3>{question.noOfAnswers} Answers</h3>
+                    <DisplayAnswer key={question._id} question={question} handleShare={handleShare}/>
                   </section>
                 )}
 
                 <section className="post-ans-container">
                   <h3>Your Answer</h3>
-                  <form>
-                    <textarea name="" id="" cols="30" rows="10"></textarea>{" "}
+                  <form
+                    onSubmit={(e) => {
+                      handlePostAns(e, question.answer.length);
+                    }}
+                  >
+                    <textarea
+                      name=""
+                      id=""
+                      cols="30"
+                      rows="10"
+                      onChange={(e) => setAnswer(e.target.value)}
+                    ></textarea>{" "}
                     <br />
                     <input
                       type="Submit"
