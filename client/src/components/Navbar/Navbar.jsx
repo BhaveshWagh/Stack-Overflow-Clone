@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import search from "../../assets/search-solid.svg";
 import Avatar from "../../components/Avatar/Avatar";
 // import Button from "../../components/Button/Button";
-import { useSelector, c, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./Navbar.css";
 import { setCurrentUser } from "../../actions/currentUser";
@@ -34,6 +34,7 @@ const Navbar = () => {
           <input type="text" placeholder="Search..." />
           <img src={search} alt="search" width={18} className="search-icon" />
         </form>
+        {/* <div className="navbar-2"> */}
 
         {User === null ? (
           <Link to="/Auth" className="nav-item nav-links">
@@ -52,12 +53,14 @@ const Navbar = () => {
                 to="/User"
                 style={{ color: "white", textDecoration: "none" }}
               >
-                M
+                {User.result.name.charAt(0).toUpperCase()}
               </Link>
             </Avatar>
             <button className="nav-item nav-links">Log Out</button>
           </>
         )}
+        {/* </div> */}
+        
       </div>
     </nav>
   );
