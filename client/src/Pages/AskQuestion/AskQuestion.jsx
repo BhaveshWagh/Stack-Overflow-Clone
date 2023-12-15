@@ -23,7 +23,8 @@ const AskQuestion = () => {
           questionTitle,
           questionBody,
           questionTags,
-          userPosted: User.result.name
+          userPosted: User.result.name,
+          userId: User?.result?._id,
         },
         navigate
       )

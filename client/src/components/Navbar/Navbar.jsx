@@ -15,6 +15,8 @@ const Navbar = () => {
   useEffect(() => {
     dispatch(setCurrentUser(JSON.parse(localStorage.getItem("Profile"))));
   }, [dispatch]);
+
+  
   return (
     <nav className="main-nav">
       <div className="navbar">
