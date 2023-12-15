@@ -10,7 +10,7 @@ import DisplayAnswer from "./DisplayAnswer";
 import upvote from "../../assets/sort-up.svg";
 import downvote from "../../assets/sort-down.svg";
 
-import { deleteQuestion, postAnswer } from "../../actions/question";
+import { deleteQuestion, postAnswer,voteQuestion } from "../../actions/question";
 
 import "./Questions.css";
 
@@ -123,6 +123,16 @@ const QuestionsDetails = () => {
     dispatch(deleteQuestion(id, Navigate));
   };
 
+  const handleUpVote = ( ) => {
+    dispatch(voteQuestion(id,'upVote', User.result._id))
+  }
+  const handleDownVote = ( ) => {
+    dispatch(voteQuestion(id,'downVote', User.result._id))
+
+  }
+
+
+
   return (
     <div className="question-details-page">
       {questionsList.data === null ? (
@@ -137,9 +147,9 @@ const QuestionsDetails = () => {
                   <h1>{question.questionTitle}</h1>
                   <div className="question-details-container-2">
                     <div className="question-votes">
-                      <img src={upvote} alt="upvote-logo" width="18" />
-                      <p>{question.upVotes - question.downVotes}</p>
-                      <img src={downvote} alt="downvote-logo" width="18" />
+                      <img src={upvote} alt="upvote-logo" width="18" className="votes-icon" onClick={handleUpVote} />
+                      <p>{question.upVote.length - question.downVote.length}</p>
+                      <img src={downvote} alt="downvote-logo" width="18" className="votes-icon" onClick={handleDownVote}/>
                     </div>
                     <div style={{ width: "100%" }}>
                       <p className="question-body">{question.questionBody}</p>
