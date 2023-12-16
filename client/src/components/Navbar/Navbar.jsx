@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { jwtDecode } from "jwt-decode";
 
+
 import "./Navbar.css";
 import { setCurrentUser } from "../../actions/currentUser";
 const Navbar = () => {
@@ -26,6 +27,7 @@ const Navbar = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
       // console.log(token)
+      // console.log(decodedToken)
       if (decodedToken.exp * 1000 < new Date().getTime()) {
         handleLogout();
       }
