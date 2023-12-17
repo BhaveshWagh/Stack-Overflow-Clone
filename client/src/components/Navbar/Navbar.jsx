@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { jwtDecode } from "jwt-decode";
 
-
 import "./Navbar.css";
 import { setCurrentUser } from "../../actions/currentUser";
 const Navbar = () => {
@@ -54,7 +53,8 @@ const Navbar = () => {
           <input type="text" placeholder="Search..." />
           <img src={search} alt="search" width={18} className="search-icon" />
         </form>
-        {/* <div className="navbar-2"> */}
+
+        <div className="navbar-2">
 
         {User === null ? (
           <Link to="/Auth" className="nav-item nav-links">
@@ -81,7 +81,7 @@ const Navbar = () => {
             </button>
           </>
         )}
-        {/* </div> */}
+      </div>
       </div>
     </nav>
   );
